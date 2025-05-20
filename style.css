@@ -1,0 +1,194 @@
+/* Estilos gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos do cabeçalho */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header img {
+    max-width: 150px;
+    margin-bottom: 15px;
+}
+
+header h1 {
+    color: #28a745; /* Verde da agricultura */
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* Títulos de seção */
+.section-title {
+    color: #007bff; /* Azul para títulos de seção */
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Estilos do formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input[type="number"],
+.form-group input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="number"]:focus,
+.form-group input[type="text"]:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745; /* Verde para o botão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Estilos dos resultados */
+#results {
+    margin-top: 40px;
+    padding: 25px;
+    background-color: #e2f2e7; /* Fundo suave para resultados */
+    border-radius: 8px;
+    border-left: 5px solid #28a745;
+    animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+#results h3 {
+    color: #28a745;
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+#results p {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Seção de exemplos de impacto */
+.impact-section {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.impact-section h2 {
+    color: #007bff;
+    font-size: 2em;
+    margin-bottom: 25px;
+}
+
+.impact-section .impact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.impact-section .impact-item img {
+    max-width: 100%; /* Garante que a imagem se ajuste ao contêiner */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 15px;
+}
+
+.impact-section .impact-item p {
+    font-size: 1.1em;
+    color: #555;
+    max-width: 700px;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+    }
+    header h1 {
+        font-size: 2em;
+    }
+    .section-title {
+        font-size: 1.5em;
+    }
+    button {
+        font-size: 1em;
+        padding: 12px;
+    }
+}

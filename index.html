@@ -4,71 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Impactos da Agricultura Familiar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-green-100 p-8">
-    <h1 class="text-3xl font-semibold text-green-700 text-center mb-6">Calculadora de Impactos da Agricultura Familiar</h1>
+<body>
+    <div class="container">
+        <header>
+            <img src="images/logo_agricultura_familiar.png" alt="Logo da Agricultura Familiar">
+            <h1>Calculadora de Impactos da Agricultura Familiar</h1>
+            <p>Uma ferramenta simples para estimar e visualizar os impactos econômicos, sociais e ambientais gerados pela agricultura familiar.</p>
+        </header>
 
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 class="text-xl font-semibold text-green-600 mb-4">Entrada de Dados</h2>
-        <form id="calculadora-form" class="space-y-4">
-            <div>
-                <label for="area-plantada" class="block text-gray-700 text-sm font-bold mb-2">Área Plantada (hectares):</label>
-                <input type="number" id="area-plantada" name="areaPlantada" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <div id="area-plantada-feedback" class="mt-1 text-red-500 text-sm"></div>
+        <h2 class="section-title">Dados para Cálculo</h2>
+
+        <form id="impactCalculatorForm">
+            <div class="form-group">
+                <label for="producaoAnual">Produção Anual (kg):</label>
+                <input type="number" id="producaoAnual" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="precoMedio">Preço Médio por kg (R$):</label>
+                <input type="number" id="precoMedio" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="percentualVendaLocal">Percentual vendido no mercado local (%):</label>
+                <input type="number" id="percentualVendaLocal" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="familiasEnvolvidas">Número de famílias envolvidas:</label>
+                <input type="number" id="familiasEnvolvidas" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="empregosDiretos">Empregos diretos gerados:</label>
+                <input type="number" id="empregosDiretos" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="empregosIndiretos">Empregos indiretos gerados:</label>
+                <input type="number" id="empregosIndiretos" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="areaConservada">Área conservada (hectares):</label>
+                <input type="number" id="areaConservada" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="agroecologia">
+                <label for="agroecologia">Usa práticas agroecológicas?</label>
+            </div>
+            <div class="form-group">
+                <label for="reducaoAgua">Redução no uso de água (%):</label>
+                <input type="number" id="reducaoAgua" min="0" max="100" required>
             </div>
 
-            <div>
-                <label for="tipo-cultura" class="block text-gray-700 text-sm font-bold mb-2">Tipo de Cultura:</label>
-                <select id="tipo-cultura" name="tipoCultura" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="" disabled selected>Selecione a cultura</option>
-                    <option value="milho">Milho</option>
-                    <option value="feijao">Feijão</option>
-                    <option value="arroz">Arroz</option>
-                    <option value="soja">Soja</option>
-                    <option value="outros">Outros</option>
-                </select>
-                <div id="tipo-cultura-feedback" class="mt-1 text-red-500 text-sm"></div>
-            </div>
-
-            <div>
-                <label for="producao-total" class="block text-gray-700 text-sm font-bold mb-2">Produção Total (kg):</label>
-                <input type="number" id="producao-total" name="producaoTotal" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <div id="producao-total-feedback" class="mt-1 text-red-500 text-sm"></div>
-            </div>
-
-            <div>
-                <label for="custo-producao" class="block text-gray-700 text-sm font-bold mb-2">Custo de Produção (R$):</label>
-                <input type="number" id="custo-producao" name="custoProducao" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                 <div id="custo-producao-feedback" class="mt-1 text-red-500 text-sm"></div>
-            </div>
-
-            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Calcular Impactos</button>
+            <button type="submit">Calcular Impactos</button>
         </form>
+
+        <div id="results" style="display: none;">
+            <h3>Resultados dos Impactos</h3>
+            <p><strong>Impacto Econômico (Receita Local Estimada):</strong> <span id="resultadoEconomico"></span></p>
+            <p><strong>Impacto Social (Pessoas Beneficiadas Estimadas):</strong> <span id="resultadoSocial"></span></p>
+            <p><strong>Impacto Ambiental (Pontuação):</strong> <span id="resultadoAmbiental"></span></p>
+            <p style="font-size: 0.9em; color: #777; margin-top: 20px;">*Esta calculadora é um exemplo simplificado para fins de demonstração.</p>
+        </div>
+
+        <div class="impact-section">
+            <h2>📊 Exemplos Visuais de Impacto</h2>
+
+            <div class="impact-item">
+                <h3>Impacto Econômico</h3>
+                <p>A agricultura familiar contribui significativamente para a economia local, gerando receita e promovendo o desenvolvimento regional.</p>
+                <img src="images/impacto_economico.png" alt="Gráfico de Impacto Econômico">
+            </div>
+
+            <div class="impact-item">
+                <h3>Impacto Social</h3>
+                <p>Além da produção de alimentos, a agricultura familiar fortalece laços comunitários, gera empregos e melhora a qualidade de vida.</p>
+                <img src="images/impacto_social.png" alt="Gráfico de Impacto Social">
+            </div>
+
+            <div class="impact-item">
+                <h3>Impacto Ambiental</h3>
+                <p>Com práticas sustentáveis, a agricultura familiar protege o meio ambiente, conserva recursos naturais e promove a biodiversidade.</p>
+                <img src="images/impacto_ambiental.png" alt="Gráfico de Impacto Ambiental">
+            </div>
+        </div>
     </div>
 
-    <div id="resultados" class="bg-white rounded-lg shadow-md p-6" style="display: none;">
-        <h2 class="text-xl font-semibold text-green-600 mb-4">Resultados</h2>
-        <div id="producao-alimentos" class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-800">Produção de Alimentos:</h3>
-            <p id="producao-alimentos-texto" class="text-gray-700"></p>
-        </div>
-        <div id="impacto-economico" class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-800">Impacto Econômico:</h3>
-            <p id="impacto-economico-texto" class="text-gray-700"></p>
-        </div>
-        <div id="impacto-social" class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-800">Impacto Social:</h3>
-            <p id="impacto-social-texto" class="text-gray-700"></p>
-        </div>
-        <div id="impacto-ambiental" class="mb-4">
-            <h3 class="text-lg font-semibold text-gray-800">Impacto Ambiental:</h3>
-            <p id="impacto-ambiental-texto" class="text-gray-700"></p>
-        </div>
-    </div>
+    <footer>
+        <p>Desenvolvido com ❤️ pela [Seu Nome/Organização]</p>
+        <p>&copy; 2025 - Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Lógica JavaScript para a calculadora
+        document.getElementById('impactCalculatorForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // Captura dos valores do formulário
+            const producaoAnual = parseFloat(document.getElementById('producaoAnual').value);
+            const precoMedio = parseFloat(document.getElementById('precoMedio').value);
+            const percentualVendaLocal = parseFloat(document.getElementById('percentualVendaLocal').value);
+            const familiasEnvolvidas = parseInt(document.getElementById('familiasEnvolvidas').value);
+            const empregosDiretos = parseInt(document.getElementById('empregosDiretos').value);
+            const empregosIndiretos = parseInt(document.getElementById('empregosIndiretos').value);
+            const areaConservada = parseFloat(document.getElementById('areaConservada').value);
+            const agroecologia = document.getElementById('agroecologia').checked;
+            const reducaoAgua = parseFloat(document.getElementById('reducaoAgua').value);
+
+            // Funções de cálculo (adaptadas do Python para JS)
+            function calcularImpactoEconomico(producaoAnual_kg, precoMedio_kg, percentual_vendido_mercado_local) {
+                const receitaBruta = producaoAnual_kg * precoMedio_kg;
+                const receitaLocal = receitaBruta * (percentual_vendido_mercado_local / 100);
+                return receitaLocal;
+            }
+
+            function calcularImpactoSocial(familias_envolvidas, empregos_gerados_diretos, empregos_gerados_indiretos) {
+                // Assumindo 4 pessoas por família em média
+                const totalPessoasBeneficiadas = (familias_envolvidas * 4) + empregos_gerados_diretos + empregos_gerados_indiretos;
+                return totalPessoasBeneficiadas;
+            }
+
+            function calcularImpactoAmbiental(area_conservada_hectares, uso_agroecologico, reducao_uso_agua_percentual) {
+                let pontuacaoAmbiental = area_conservada_hectares * 10;
+                if (uso_agroecologico) {
+                    pontuacaoAmbiental += 50; // Bônus por práticas agroecológicas
+                }
+                pontuacaoAmbiental += (reducao_uso_agua_percentual / 100) * 100; // Redução de água também é um impacto
+                return pontuacaoAmbiental;
+            }
+
+            // Realiza os cálculos
+            const impactoEco = calcularImpactoEconomico(producaoAnual, precoMedio, percentualVendaLocal);
+            const impactoSocial = calcularImpactoSocial(familiasEnvolvidas, empregosDiretos, empregosIndiretos);
+            const impactoAmbiental = calcularImpactoAmbiental(areaConservada, agroecologia, reducaoAgua);
+
+            // Exibe os resultados
+            document.getElementById('resultadoEconomico').textContent = `R$ ${impactoEco.toFixed(2)}`;
+            document.getElementById('resultadoSocial').textContent = `${parseInt(impactoSocial)}`;
+            document.getElementById('resultadoAmbiental').textContent = `${impactoAmbiental.toFixed(2)}`;
+
+            document.getElementById('results').style.display = 'block'; // Mostra a seção de resultados
+        });
+    </script>
+</body>
+</html>
