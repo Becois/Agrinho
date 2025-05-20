@@ -10,6 +10,8 @@ import java.util.Scanner;
  *
  * Esta classe calcula o impacto econômico da agricultura familiar com base nos
  * produtos agrícolas fornecidos e sua contribuição para o abastecimento da cidade.
+ *
+ * [Image of Agricultura Familiar Brasileira]
  */
 public class CalculadoraImpacto {
 
@@ -102,6 +104,14 @@ public class CalculadoraImpacto {
         private double quantidadeFornecida;
         private double valorEconomicoGerado;
 
+        /**
+         * Construtor da classe ImpactoProduto.
+         *
+         * @param nomeProduto Nome do produto agrícola.
+         * @param contribuicaoPorcentagem Porcentagem de contribuição da agricultura familiar.
+         * @param quantidadeFornecida Quantidade fornecida pela agricultura familiar.
+         * @param valorEconomicoGerado Valor econômico gerado pela agricultura familiar.
+         */
         public ImpactoProduto(String nomeProduto, double contribuicaoPorcentagem, double quantidadeFornecida, double valorEconomicoGerado) {
             this.nomeProduto = nomeProduto;
             this.contribuicaoPorcentagem = contribuicaoPorcentagem;
@@ -125,3 +135,69 @@ public class CalculadoraImpacto {
         public double getValorEconomicoGerado() {
             return valorEconomicoGerado;
         }
+
+        /**
+         * Retorna uma representação em String do objeto ImpactoProduto.
+         *
+         * @return Uma String formatada com os detalhes do impacto do produto.
+         */
+        @Override
+        public String toString() {
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            String unidade = nomeProduto.equalsIgnoreCase("Leite") ? "Litros" : "Kg";
+            return String.format(
+                    "  - %s:\n" +
+                            "    Contribuição AF: %.2f%%\n" +
+                            "    Qtd. Fornecida AF (mensal): %.2f %s\n" +
+                            "    Valor Econômico Gerado (mensal): %s",
+                    nomeProduto, contribuicaoPorcentagem, quantidadeFornecida, unidade,
+                    currencyFormatter.format(valorEconomicoGerado)
+            );
+        }
+    }
+
+    /**
+     * Classe interna para representar o resumo do impacto total dos produtos selecionados.
+     */
+    public static class SumarioImpacto {
+        private List<ImpactoProduto> detalhes;
+        private double totalEconomia;
+
+        /**
+         * Construtor da classe SumarioImpacto.
+         *
+         * @param detalhes Lista de objetos ImpactoProduto com os detalhes de cada produto.
+         * @param totalEconomia Valor econômico total gerado pela agricultura familiar.
+         */
+        public SumarioImpacto(List<ImpactoProduto> detalhes, double totalEconomia) {
+            this.detalhes = detalhes;
+            this.totalEconomia = totalEconomia;
+        }
+
+        public List<ImpactoProduto> getDetalhes() {
+            return detalhes;
+        }
+
+        public double getTotalEconomia() {
+            return totalEconomia;
+        }
+
+        /**
+         * Retorna uma representação em String do objeto SumarioImpacto.
+         *
+         * @return Uma String formatada com o resumo do impacto total.
+         */
+        @Override
+        public String toString() {
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n=== Sumário de Impacto ===\n");
+            for (ImpactoProduto ip : detalhes) {
+                sb.append(ip.toString()).append("\n");
+            }
+            sb.append(String.format("\nTotal Econômico Gerado pela Agricultura Familiar (produtos selecionados): %s\n",
+                    currencyFormatter.format(totalEconomia)));
+            return sb.toString();
+        }
+    }
+}
